@@ -7,204 +7,48 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --azul-escuro: #000e4b;
-    --azul:        #1a3077;
-    --azul-claro:  #57a7d5;
-    --bg:          #f4f6fb;
-    --surface:     #ffffff;
-    --text:        #111827;
-    --text-muted:  #6b7280;
-    --text-light:  #9ca3af;
-    --border:      rgba(26,48,119,0.12);
+    --azul-escuro: #000e4b; --azul: #1a3077; --azul-claro: #57a7d5;
+    --bg: #f4f6fb; --surface: #ffffff; --text: #111827;
+    --text-muted: #6b7280; --text-light: #9ca3af; --border: rgba(26,48,119,0.12);
   }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 32px 24px 48px;
-  }
-
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 32px 24px 48px; }
   .page { max-width: 900px; margin: 0 auto; }
-
-  .header {
-    background: var(--azul-escuro);
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 14px;
-  }
+  .header { background: var(--azul-escuro); border-radius: 16px; padding: 28px 32px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
   .header h1 { font-size: 22px; font-weight: 500; color: #fff; letter-spacing: -0.3px; }
   .header-meta { font-size: 12px; color: var(--azul-claro); margin-top: 5px; font-family: 'DM Mono', monospace; }
-
   .header-right { display: flex; align-items: center; gap: 10px; }
-
-  .badge {
-    background: var(--azul-claro);
-    color: var(--azul-escuro);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-  }
-
-  .btn-update {
-    background: transparent;
-    border: 1.5px solid rgba(255,255,255,0.35);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 7px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    transition: background 0.15s, border-color 0.15s;
-  }
+  .badge { background: var(--azul-claro); color: var(--azul-escuro); font-size: 11px; font-weight: 600; padding: 5px 14px; border-radius: 20px; letter-spacing: 0.04em; white-space: nowrap; }
+  .btn-update { background: transparent; border: 1.5px solid rgba(255,255,255,0.35); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 18px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: background 0.15s, border-color 0.15s; }
   .btn-update:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
   .btn-update:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-update svg { width: 14px; height: 14px; flex-shrink: 0; }
   .btn-update.loading svg { animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .section-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--azul);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-bottom: 2px solid var(--azul);
-    padding-bottom: 7px;
-    margin-bottom: 18px;
-  }
-
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-  .metric-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--azul);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .metric-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-  .metric-value {
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--azul);
-    line-height: 1;
-    font-family: 'DM Mono', monospace;
-  }
+  .section-label { font-size: 10px; font-weight: 600; color: var(--azul); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 2px solid var(--azul); padding-bottom: 7px; margin-bottom: 18px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--azul); border-radius: 12px; padding: 16px 18px; }
+  .metric-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+  .metric-value { font-size: 32px; font-weight: 600; color: var(--azul); line-height: 1; font-family: 'DM Mono', monospace; }
   .metric-sub { font-size: 11px; color: var(--text-light); margin-top: 5px; }
-
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 16px;
-  }
-  .legend-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 12px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 2px;
-    display: inline-block;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-
-  .status-bar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 18px;
-    margin-bottom: 24px;
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #22c55e;
-    flex-shrink: 0;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--text); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; font-size: 11px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 5px; vertical-align: middle; }
+  .status-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; margin-bottom: 24px; font-size: 12px; color: var(--text-muted); font-family: 'DM Mono', monospace; display: flex; align-items: center; gap: 8px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
   .status-dot.loading { background: var(--azul-claro); animation: pulse 1s ease-in-out infinite; }
-  .status-dot.error   { background: #ef4444; }
+  .status-dot.error { background: #ef4444; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  .error-msg {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 10px;
-    padding: 16px 20px;
-    color: #b91c1c;
-    font-size: 13px;
-    margin-bottom: 20px;
-    display: none;
-  }
-
-  .footer {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-light);
-    margin-top: 8px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  @media (max-width: 640px) {
-    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    .charts-row   { grid-template-columns: 1fr; }
-  }
+  .error-msg { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 16px 20px; color: #b91c1c; font-size: 13px; margin-bottom: 20px; display: none; }
+  .footer { text-align: center; font-size: 11px; color: var(--text-light); margin-top: 8px; font-family: 'DM Mono', monospace; }
+  @media (max-width: 640px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .charts-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="page">
-
   <div class="header">
     <div>
       <h1>Relatório de leads</h1>
@@ -221,387 +65,276 @@
       </button>
     </div>
   </div>
-
   <div class="status-bar">
     <span class="status-dot loading" id="statusDot"></span>
     <span id="statusText">Buscando dados da planilha...</span>
   </div>
-
   <div class="error-msg" id="errorMsg"></div>
-
   <p class="section-label">Resumo do período</p>
-
   <div class="metrics-grid">
-    <div class="metric-card">
-      <div class="metric-label">Total de leads</div>
-      <div class="metric-value" id="mTotal">—</div>
-      <div class="metric-sub" id="mTotalSub">—</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Média diária</div>
-      <div class="metric-value" id="mDiaria">—</div>
-      <div class="metric-sub" id="mDiariaSub">—</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Média semanal</div>
-      <div class="metric-value" id="mSemanal">—</div>
-      <div class="metric-sub">por semana útil</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-label">Média quinzenal</div>
-      <div class="metric-value" id="mQuinzenal">—</div>
-      <div class="metric-sub">por quinzena</div>
-    </div>
+    <div class="metric-card"><div class="metric-label">Total de leads</div><div class="metric-value" id="mTotal">—</div><div class="metric-sub" id="mTotalSub">—</div></div>
+    <div class="metric-card"><div class="metric-label">Média diária</div><div class="metric-value" id="mDiaria">—</div><div class="metric-sub" id="mDiariaSub">—</div></div>
+    <div class="metric-card"><div class="metric-label">Média semanal</div><div class="metric-value" id="mSemanal">—</div><div class="metric-sub">por semana útil</div></div>
+    <div class="metric-card"><div class="metric-label">Média quinzenal</div><div class="metric-value" id="mQuinzenal">—</div><div class="metric-sub">por quinzena</div></div>
   </div>
-
   <p class="section-label">Canais e origens</p>
-
   <div class="charts-row">
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">Por canal (identificador)</div>
       <div class="legend-row" id="legendCanal"></div>
-      <div style="position:relative;width:100%;height:200px;">
-        <canvas id="canalChart"></canvas>
-      </div>
+      <div style="position:relative;width:100%;height:200px;"><canvas id="canalChart"></canvas></div>
     </div>
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">Por origem</div>
       <div class="legend-row" id="legendOrigem"></div>
-      <div style="position:relative;width:100%;height:200px;">
-        <canvas id="origemChart"></canvas>
-      </div>
+      <div style="position:relative;width:100%;height:200px;"><canvas id="origemChart"></canvas></div>
     </div>
   </div>
-
   <p class="section-label" style="margin-top:28px;">Evolução diária</p>
-
   <div class="card">
     <div class="card-title">Volume diário de leads — mês atual</div>
     <div class="legend-row">
       <span><span class="legend-dot" style="background:#1a3077;"></span>pedido-de-orçamento</span>
       <span><span class="legend-dot" style="background:#57a7d5;"></span>/contato/</span>
     </div>
-    <div style="position:relative;width:100%;height:230px;">
-      <canvas id="dailyChart"></canvas>
-    </div>
+    <div style="position:relative;width:100%;height:230px;"><canvas id="dailyChart"></canvas></div>
   </div>
-
   <p class="section-label">Comparativo mensal</p>
-
   <div class="card">
     <div class="card-title">Total de leads por mês — <span id="anoAtual">2026</span></div>
     <div class="legend-row">
       <span><span class="legend-dot" style="background:#1a3077;"></span>Meses concluídos</span>
-      <span><span class="legend-dot" style="background:rgba(87,167,213,0.55); border:1px solid #57a7d5;"></span>Mês atual (parcial)</span>
+      <span><span class="legend-dot" style="background:rgba(87,167,213,0.55);border:1px solid #57a7d5;"></span>Mês atual (parcial)</span>
     </div>
-    <div style="position:relative;width:100%;height:250px;">
-      <canvas id="mensalChart"></canvas>
-    </div>
+    <div style="position:relative;width:100%;height:250px;"><canvas id="mensalChart"></canvas></div>
   </div>
-
   <p class="footer" id="footerNote">* Médias arredondadas para baixo · Período considera D-1 da data de geração</p>
-
 </div>
 
 <script>
 const SHEET_ID = '1NG8geEV2S06m-iCzWNqSzZP29UWpxnhYu1w8mz6k-Uk';
-const SHEET_NAME = 'Leads';
-const C1  = '#1a3077';
-const C2  = '#57a7d5';
-const C3  = '#000e4b';
-const C2a = 'rgba(87,167,213,0.55)';
+const C1='#1a3077', C2='#57a7d5', C3='#000e4b', C2a='rgba(87,167,213,0.55)';
+let chartCanal=null, chartOrigem=null, chartDaily=null, chartMensal=null;
+Chart.defaults.font.family="'DM Sans', sans-serif";
 
-let chartCanal   = null;
-let chartOrigem  = null;
-let chartDaily   = null;
-let chartMensal  = null;
-
-Chart.defaults.font.family = "'DM Sans', sans-serif";
-
-function setStatus(type, text) {
-  const dot  = document.getElementById('statusDot');
-  const msg  = document.getElementById('statusText');
-  dot.className = 'status-dot ' + type;
-  msg.textContent = text;
+function setStatus(type,text){
+  document.getElementById('statusDot').className='status-dot '+type;
+  document.getElementById('statusText').textContent=text;
 }
-
-function setError(text) {
-  const el = document.getElementById('errorMsg');
-  el.style.display = text ? 'block' : 'none';
-  el.textContent = text || '';
+function setError(text){
+  const el=document.getElementById('errorMsg');
+  el.style.display=text?'block':'none';
+  el.textContent=text||'';
 }
-
-function diasUteisNoMes(ano, mes) {
-  const feriados = [`${ano}-01-01`,`${ano}-04-21`,`${ano}-05-01`,`${ano}-09-07`,`${ano}-10-12`,`${ano}-11-02`,`${ano}-11-15`,`${ano}-12-25`];
-  const hoje = new Date();
-  const limiteD1 = new Date(hoje);
-  limiteD1.setDate(limiteD1.getDate() - 1);
-
-  let count = 0;
-  const ultimo = new Date(ano, mes, 0).getDate();
-  for (let d = 1; d <= ultimo; d++) {
-    const dt = new Date(ano, mes - 1, d);
-    if (dt > limiteD1) break;
-    const dow = dt.getDay();
-    if (dow === 0 || dow === 6) continue;
-    const iso = dt.toISOString().slice(0, 10);
-    if (feriados.includes(iso)) continue;
+function diasUteisNoMes(ano,mes,limiteD1){
+  const feriados=[`${ano}-01-01`,`${ano}-04-21`,`${ano}-05-01`,`${ano}-09-07`,`${ano}-10-12`,`${ano}-11-02`,`${ano}-11-15`,`${ano}-12-25`];
+  let count=0;
+  const ultimo=new Date(ano,mes,0).getDate();
+  for(let d=1;d<=ultimo;d++){
+    const dt=new Date(ano,mes-1,d);
+    if(dt>limiteD1) break;
+    if(dt.getDay()===0||dt.getDay()===6) continue;
+    if(feriados.includes(dt.toISOString().slice(0,10))) continue;
     count++;
   }
   return count;
 }
-
-function parseDate(str) {
-  const [d, m, y] = str.split('/');
-  return new Date(+y, +m - 1, +d);
+function parseDate(str){
+  const[d,m,y]=str.split('/');
+  return new Date(+y,+m-1,+d);
+}
+function formatarData(dt){
+  return dt.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function nomeMes(m){
+  return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][m-1];
 }
 
-function formatarData(dt) {
-  return dt.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+// Deduplicar leads: chave = data+horário+nome
+function deduplicar(leads){
+  const seen=new Set();
+  return leads.filter(l=>{
+    const key=`${l.dia}|${l.hora}|${l.nome}`;
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
-function nomeMes(m) {
-  return ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][m - 1];
-}
-
-async function carregarDados() {
-  const btn = document.getElementById('btnUpdate');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  setStatus('loading', 'Buscando dados da planilha...');
-  setError('');
-
-  try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Não foi possível acessar a planilha. Verifique se ela está pública.');
-    const text = await res.text();
-    processarDados(text);
-  } catch (e) {
-    setStatus('error', 'Erro ao carregar dados.');
-    setError('Erro: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.classList.remove('loading');
+async function carregarDados(){
+  const btn=document.getElementById('btnUpdate');
+  btn.disabled=true; btn.classList.add('loading');
+  setStatus('loading','Buscando dados da planilha...'); setError('');
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Leads`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error('Não foi possível acessar a planilha.');
+    processarDados(await res.text());
+  }catch(e){
+    setStatus('error','Erro ao carregar dados.');
+    setError('Erro: '+e.message);
+  }finally{
+    btn.disabled=false; btn.classList.remove('loading');
   }
 }
 
-function processarDados(csv) {
-  const linhas = csv.trim().split('\n').slice(1);
-  const hoje = new Date();
-  const d1 = new Date(hoje);
-  d1.setDate(d1.getDate() - 1);
+function processarDados(csv){
+  const linhas=csv.trim().split('\n').slice(1);
+  const hoje=new Date();
+  const d1=new Date(hoje); d1.setDate(d1.getDate()-1);
+  d1.setHours(23,59,59,999);
+  const anoAtual=d1.getFullYear(), mesAtual=d1.getMonth()+1;
 
-  const anoAtual = d1.getFullYear();
-  const mesAtual = d1.getMonth() + 1;
-
-  const leads = [];
-  for (const linha of linhas) {
-    const cols = linha.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-    if (!cols[0] || !cols[0].match(/\d{2}\/\d{2}\/\d{4}/)) continue;
-    const dt = parseDate(cols[0]);
-    if (isNaN(dt)) continue;
-    leads.push({
-      date: dt,
-      dia: cols[0],
-      identificador: cols[3] || '',
-      origem: cols[4] || ''
-    });
+  const leads=[];
+  for(const linha of linhas){
+    const cols=linha.split(',').map(c=>c.replace(/^"|"$/g,'').trim());
+    if(!cols[0]||!cols[0].match(/\d{2}\/\d{2}\/\d{4}/)) continue;
+    const dt=parseDate(cols[0]);
+    if(isNaN(dt)) continue;
+    leads.push({date:dt,dia:cols[0],hora:cols[1]||'',nome:cols[2]||'',identificador:cols[3]||'',origem:cols[4]||''});
   }
 
-  const leadsMes = leads.filter(l =>
-    l.date.getFullYear() === anoAtual &&
-    l.date.getMonth() + 1 === mesAtual &&
-    l.date <= d1
+  // Deduplicar
+  const leadsUnicos=deduplicar(leads);
+
+  const leadsMes=leadsUnicos.filter(l=>
+    l.date.getFullYear()===anoAtual &&
+    l.date.getMonth()+1===mesAtual &&
+    l.date<=d1
   );
 
-  const total = leadsMes.length;
-  const du    = diasUteisNoMes(anoAtual, mesAtual);
-  const mediaDiaria    = Math.floor(total / du);
-  const mediaSemanal   = Math.floor(total / (du / 5));
-  const mediaQuinzenal = Math.floor(total / (du / 7.5));
+  const total=leadsMes.length;
+  const du=diasUteisNoMes(anoAtual,mesAtual,d1);
+  const mediaDiaria=Math.floor(total/du);
+  const mediaSemanal=Math.floor(total/(du/5));
+  const mediaQuinzenal=Math.floor(total/(du/7.5));
 
-  const dataInicio = new Date(anoAtual, mesAtual - 1, 1);
-  const dataFim    = d1;
+  const dataInicio=new Date(anoAtual,mesAtual-1,1);
 
-  document.getElementById('headerMeta').textContent =
-    `Período: ${formatarData(dataInicio)} a ${formatarData(dataFim)}  ·  Gerado em ${formatarData(hoje)}`;
-  document.getElementById('badgeParcial').textContent =
-    d1.getMonth() + 1 === hoje.getMonth() + 1 ? 'Mês parcial' : 'Mês completo';
-  document.getElementById('anoAtual').textContent = anoAtual;
-  document.getElementById('mTotal').textContent   = total;
-  document.getElementById('mTotalSub').textContent = `1 a ${d1.getDate().toString().padStart(2,'0')}/${mesAtual.toString().padStart(2,'0')}/${anoAtual}`;
-  document.getElementById('mDiaria').textContent   = mediaDiaria;
-  document.getElementById('mDiariaSub').textContent = `${du} dias úteis`;
-  document.getElementById('mSemanal').textContent   = mediaSemanal;
-  document.getElementById('mQuinzenal').textContent = mediaQuinzenal;
-  document.getElementById('footerNote').textContent =
-    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo`;
+  document.getElementById('headerMeta').textContent=
+    `Período: ${formatarData(dataInicio)} a ${formatarData(d1)}  ·  Gerado em ${formatarData(hoje)}`;
+  document.getElementById('badgeParcial').textContent=
+    d1.getMonth()+1===hoje.getMonth()+1?'Mês parcial':'Mês completo';
+  document.getElementById('anoAtual').textContent=anoAtual;
+  document.getElementById('mTotal').textContent=total;
+  document.getElementById('mTotalSub').textContent=`1 a ${d1.getDate().toString().padStart(2,'0')}/${mesAtual.toString().padStart(2,'0')}/${anoAtual}`;
+  document.getElementById('mDiaria').textContent=mediaDiaria;
+  document.getElementById('mDiariaSub').textContent=`${du} dias úteis`;
+  document.getElementById('mSemanal').textContent=mediaSemanal;
+  document.getElementById('mQuinzenal').textContent=mediaQuinzenal;
+  document.getElementById('footerNote').textContent=
+    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo · Duplicatas removidas automaticamente`;
 
   renderCanal(leadsMes);
   renderOrigem(leadsMes);
-  renderDiario(leadsMes, anoAtual, mesAtual, d1);
-  renderMensal(leads, anoAtual, mesAtual, d1);
+  renderDiario(leadsMes,anoAtual,mesAtual,d1);
+  renderMensal(leadsUnicos,anoAtual,mesAtual,d1);
 
-  setStatus('', `Dados atualizados · ${leadsMes.length} leads carregados · última atualização: ${new Date().toLocaleTimeString('pt-BR')}`);
-  document.getElementById('statusDot').className = 'status-dot';
+  setStatus('',`Dados atualizados · ${total} leads · última atualização: ${new Date().toLocaleTimeString('pt-BR')}`);
+  document.getElementById('statusDot').className='status-dot';
 }
 
-function renderCanal(leads) {
-  const orcamento = leads.filter(l => l.identificador.includes('pedido-de-orcamento')).length;
-  const contato   = leads.filter(l => l.identificador.includes('/contato/')).length;
-  const outros    = leads.length - orcamento - contato;
-  const total     = leads.length || 1;
-
-  const labels = ['Botão WhatsApp'];
-  const data   = [orcamento];
-  const colors = [C1];
-  if (contato > 0) { labels.push('Formulário site'); data.push(contato); colors.push(C2); }
-  if (outros > 0)  { labels.push('Outros canais');   data.push(outros);  colors.push(C3); }
-
-  const legend = document.getElementById('legendCanal');
-  legend.innerHTML = labels.map((l, i) =>
+function renderCanal(leads){
+  const orc=leads.filter(l=>l.identificador.includes('pedido-de-orcamento')).length;
+  const cont=leads.filter(l=>l.identificador.includes('/contato/')).length;
+  const outros=leads.length-orc-cont;
+  const total=leads.length||1;
+  const labels=['Botão WhatsApp'],data=[orc],colors=[C1];
+  if(cont>0){labels.push('Formulário site');data.push(cont);colors.push(C2);}
+  if(outros>0){labels.push('Outros canais');data.push(outros);colors.push(C3);}
+  document.getElementById('legendCanal').innerHTML=labels.map((l,i)=>
     `<span><span class="legend-dot" style="background:${colors[i]};"></span>${l} — ${data[i]} (${Math.round(data[i]/total*100)}%)</span>`
   ).join('');
-
-  if (chartCanal) chartCanal.destroy();
-  chartCanal = new Chart(document.getElementById('canalChart'), {
-    type: 'doughnut',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0, hoverOffset: 6 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false, cutout: '68%',
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} leads` } } }
-    }
+  if(chartCanal) chartCanal.destroy();
+  chartCanal=new Chart(document.getElementById('canalChart'),{
+    type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:0,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} leads`}}}}
   });
 }
 
-function renderOrigem(leads) {
-  let organica = 0, paga = 0, outros = 0;
-  for (const l of leads) {
-    const o = l.origem.toLowerCase();
-    if (o.includes('busca orgânica') || o.includes('busca organica')) organica++;
-    else if (o.includes('busca paga')) paga++;
+function renderOrigem(leads){
+  let organica=0,paga=0,outros=0;
+  for(const l of leads){
+    const o=l.origem.toLowerCase();
+    if(o.includes('busca org')) organica++;
+    else if(o.includes('busca paga')) paga++;
     else outros++;
   }
-  const total = leads.length || 1;
-
-  const legend = document.getElementById('legendOrigem');
-  legend.innerHTML = [
-    { label: 'Busca Orgânica', val: organica, color: C1 },
-    { label: 'Busca Paga',     val: paga,     color: C2 },
-    { label: 'Outros',         val: outros,   color: C3 }
-  ].filter(x => x.val > 0).map(x =>
+  const total=leads.length||1;
+  document.getElementById('legendOrigem').innerHTML=[
+    {label:'Busca Orgânica',val:organica,color:C1},
+    {label:'Busca Paga',val:paga,color:C2},
+    {label:'Outros',val:outros,color:C3}
+  ].filter(x=>x.val>0).map(x=>
     `<span><span class="legend-dot" style="background:${x.color};"></span>${x.label} — ${x.val} (${Math.round(x.val/total*100)}%)</span>`
   ).join('');
-
-  if (chartOrigem) chartOrigem.destroy();
-  chartOrigem = new Chart(document.getElementById('origemChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Busca Orgânica', 'Busca Paga', 'Outros'],
-      datasets: [{ data: [organica, paga, outros], backgroundColor: [C1, C2, C3], borderRadius: 5, borderSkipped: false }]
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} leads` } } },
-      scales: {
-        x: { grid: { color: 'rgba(26,48,119,0.07)' }, ticks: { font: { size: 11 } } },
-        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
-      }
-    }
+  if(chartOrigem) chartOrigem.destroy();
+  chartOrigem=new Chart(document.getElementById('origemChart'),{
+    type:'bar',
+    data:{labels:['Busca Orgânica','Busca Paga','Outros'],
+      datasets:[{data:[organica,paga,outros],backgroundColor:[C1,C2,C3],borderRadius:5,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.x} leads`}}},
+      scales:{x:{grid:{color:'rgba(26,48,119,0.07)'},ticks:{font:{size:11}}},y:{grid:{display:false},ticks:{font:{size:11}}}}}
   });
 }
 
-function renderDiario(leads, ano, mes, limite) {
-  const diasNoMes = new Date(ano, mes, 0).getDate();
-  const diasMap = {};
-  for (let d = 1; d <= diasNoMes; d++) {
-    const dt = new Date(ano, mes - 1, d);
-    if (dt > limite) break;
-    const key = d.toString().padStart(2, '0');
-    diasMap[key] = { orc: 0, cont: 0 };
+function renderDiario(leads,ano,mes,limite){
+  const diasNoMes=new Date(ano,mes,0).getDate();
+  const diasMap={};
+  for(let d=1;d<=diasNoMes;d++){
+    const dt=new Date(ano,mes-1,d);
+    if(dt>limite) break;
+    diasMap[d.toString().padStart(2,'0')]={orc:0,cont:0};
   }
-  for (const l of leads) {
-    const key = l.date.getDate().toString().padStart(2, '0');
-    if (!diasMap[key]) continue;
-    if (l.identificador.includes('pedido-de-orcamento')) diasMap[key].orc++;
-    else if (l.identificador.includes('/contato/'))      diasMap[key].cont++;
+  for(const l of leads){
+    const key=l.date.getDate().toString().padStart(2,'0');
+    if(!diasMap[key]) continue;
+    if(l.identificador.includes('pedido-de-orcamento')) diasMap[key].orc++;
+    else if(l.identificador.includes('/contato/')) diasMap[key].cont++;
     else diasMap[key].orc++;
   }
-  const labels = Object.keys(diasMap);
-  const orc  = labels.map(k => diasMap[k].orc);
-  const cont = labels.map(k => diasMap[k].cont);
-
-  if (chartDaily) chartDaily.destroy();
-  chartDaily = new Chart(document.getElementById('dailyChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { label: 'pedido-de-orçamento', data: orc,  backgroundColor: C1, borderRadius: 3, borderSkipped: false },
-        { label: '/contato/',           data: cont, backgroundColor: C2, borderRadius: 3, borderSkipped: false }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 }, autoSkip: false } },
-        y: { stacked: true, grid: { color: 'rgba(26,48,119,0.07)' }, ticks: { font: { size: 11 } } }
-      }
-    }
+  const labels=Object.keys(diasMap);
+  if(chartDaily) chartDaily.destroy();
+  chartDaily=new Chart(document.getElementById('dailyChart'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'pedido-de-orçamento',data:labels.map(k=>diasMap[k].orc),backgroundColor:C1,borderRadius:3,borderSkipped:false},
+      {label:'/contato/',data:labels.map(k=>diasMap[k].cont),backgroundColor:C2,borderRadius:3,borderSkipped:false}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},autoSkip:false}},
+              y:{stacked:true,grid:{color:'rgba(26,48,119,0.07)'},ticks:{font:{size:11}}}}}
   });
 }
 
-function renderMensal(leads, anoAtual, mesAtual, limiteD1) {
-  const totaisMes = {};
-  for (const l of leads) {
-    const a = l.date.getFullYear();
-    const m = l.date.getMonth() + 1;
-    if (a !== anoAtual) continue;
-    if (a === anoAtual && m === mesAtual && l.date > limiteD1) continue;
-    const key = `${a}-${m}`;
-    totaisMes[key] = (totaisMes[key] || 0) + 1;
+function renderMensal(leads,anoAtual,mesAtual,limiteD1){
+  const totais={};
+  for(const l of leads){
+    const a=l.date.getFullYear(),m=l.date.getMonth()+1;
+    if(a!==anoAtual) continue;
+    if(m===mesAtual&&l.date>limiteD1) continue;
+    const key=`${a}-${m}`;
+    totais[key]=(totais[key]||0)+1;
   }
-
-  const labels = [], data = [], bgColors = [], borders = [], bWidths = [];
-  for (let m = 1; m <= mesAtual; m++) {
-    const key = `${anoAtual}-${m}`;
-    labels.push(m === mesAtual ? nomeMes(m) + '*' : nomeMes(m));
-    data.push(totaisMes[key] || 0);
-    const isParcial = m === mesAtual;
-    bgColors.push(isParcial ? C2a : C1);
-    borders.push(isParcial ? C2 : C1);
-    bWidths.push(isParcial ? 1.5 : 0);
+  const labels=[],data=[],bgColors=[],borders=[],bWidths=[];
+  for(let m=1;m<=mesAtual;m++){
+    labels.push(m===mesAtual?nomeMes(m)+'*':nomeMes(m));
+    data.push(totais[`${anoAtual}-${m}`]||0);
+    const ip=m===mesAtual;
+    bgColors.push(ip?C2a:C1); borders.push(ip?C2:C1); bWidths.push(ip?1.5:0);
   }
-
-  const maxVal = Math.max(...data, 50);
-
-  if (chartMensal) chartMensal.destroy();
-  chartMensal = new Chart(document.getElementById('mensalChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor: bgColors,
-        borderColor: borders,
-        borderWidth: bWidths,
-        borderRadius: 5,
-        borderSkipped: false
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} leads${ctx.dataIndex === mesAtual - 1 ? ' (parcial)' : ''}` } }
-      },
-      scales: {
-        x: { grid: { display: false }, ticks: { font: { size: 12 } } },
-        y: { grid: { color: 'rgba(26,48,119,0.07)' }, ticks: { font: { size: 11 } }, min: 0, max: Math.ceil(maxVal * 1.2) }
-      }
-    }
+  const maxVal=Math.max(...data,50);
+  if(chartMensal) chartMensal.destroy();
+  chartMensal=new Chart(document.getElementById('mensalChart'),{
+    type:'bar',
+    data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:borders,borderWidth:bWidths,borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} leads${ctx.dataIndex===mesAtual-1?' (parcial)':''}`}}},
+      scales:{x:{grid:{display:false},ticks:{font:{size:12}}},
+              y:{grid:{color:'rgba(26,48,119,0.07)'},ticks:{font:{size:11}},min:0,max:Math.ceil(maxVal*1.2)}}}
   });
 }
 
