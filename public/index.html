@@ -195,7 +195,7 @@ function processarDados(csv){
   }
 
   // Deduplicar
-  const leadsUnicos=deduplicar(leads);
+  const leadsUnicos=leads;
 
   const leadsMes=leadsUnicos.filter(l=>
     l.date.getFullYear()===anoAtual &&
@@ -223,7 +223,7 @@ function processarDados(csv){
   document.getElementById('mSemanal').textContent=mediaSemanal;
   document.getElementById('mQuinzenal').textContent=mediaQuinzenal;
   document.getElementById('footerNote').textContent=
-    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo · Duplicatas removidas automaticamente`;
+    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo`;
 
   renderCanal(leadsMes);
   renderOrigem(leadsMes);
