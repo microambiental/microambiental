@@ -6,7 +6,7 @@
 <title>Relatório de Leads</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sansh:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --azul-escuro: #000e4b; --azul: #1a3077; --azul-claro: #57a7d5;
@@ -150,11 +150,11 @@ function nomeMes(m){
   return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][m-1];
 }
 
-// Deduplicar leads: chave = data+horário+nome
+// Deduplicar leads: chave = data+horário+nome+identificador+origem
 function deduplicar(leads){
   const seen=new Set();
   return leads.filter(l=>{
-    const key=`${l.dia}|${l.hora}|${l.nome}`;
+    const key=`${l.dia}|${l.hora}|${l.nome}|${l.identificador}|${l.origem}`;
     if(seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -223,7 +223,7 @@ function processarDados(csv){
   document.getElementById('mSemanal').textContent=mediaSemanal;
   document.getElementById('mQuinzenal').textContent=mediaQuinzenal;
   document.getElementById('footerNote').textContent=
-    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo · Duplicatas removidas automaticamente`;
+    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo`;
 
   renderCanal(leadsMes);
   renderOrigem(leadsMes);
