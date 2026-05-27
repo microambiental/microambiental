@@ -6,7 +6,7 @@
 <title>Relatório de Leads</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sansh:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --azul-escuro: #000e4b; --azul: #1a3077; --azul-claro: #57a7d5;
@@ -94,8 +94,8 @@
   <div class="card">
     <div class="card-title">Volume diário de leads — mês atual</div>
     <div class="legend-row">
-      <span><span class="legend-dot" style="background:#1a3077;"></span>pedido-de-orçamento</span>
-      <span><span class="legend-dot" style="background:#57a7d5;"></span>/contato/</span>
+      <span><span class="legend-dot" style="background:#1a3077;"></span>Botão de WhatsApp</span>
+      <span><span class="legend-dot" style="background:#57a7d5;"></span>Formulário site</span>
     </div>
     <div style="position:relative;width:100%;height:230px;"><canvas id="dailyChart"></canvas></div>
   </div>
@@ -150,11 +150,11 @@ function nomeMes(m){
   return['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][m-1];
 }
 
-// Deduplicar leads: chave = data+horário+nome+identificador+origem
+// Deduplicar leads: chave = data+horário+nome
 function deduplicar(leads){
   const seen=new Set();
   return leads.filter(l=>{
-    const key=`${l.dia}|${l.hora}|${l.nome}|${l.identificador}|${l.origem}`;
+    const key=`${l.dia}|${l.hora}|${l.nome}`;
     if(seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -223,7 +223,7 @@ function processarDados(csv){
   document.getElementById('mSemanal').textContent=mediaSemanal;
   document.getElementById('mQuinzenal').textContent=mediaQuinzenal;
   document.getElementById('footerNote').textContent=
-    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo`;
+    `* ${nomeMes(mesAtual)}/${anoAtual} considerado até ${formatarData(d1)} (D-1) · Médias arredondadas para baixo · Duplicatas removidas automaticamente`;
 
   renderCanal(leadsMes);
   renderOrigem(leadsMes);
@@ -286,7 +286,6 @@ function renderDiario(leads,ano,mes,limite){
   const diasMap={};
   for(let d=1;d<=diasNoMes;d++){
     const dt=new Date(ano,mes-1,d);
-    if(dt>limite) break;
     diasMap[d.toString().padStart(2,'0')]={orc:0,cont:0};
   }
   for(const l of leads){
@@ -301,8 +300,8 @@ function renderDiario(leads,ano,mes,limite){
   chartDaily=new Chart(document.getElementById('dailyChart'),{
     type:'bar',
     data:{labels,datasets:[
-      {label:'pedido-de-orçamento',data:labels.map(k=>diasMap[k].orc),backgroundColor:C1,borderRadius:3,borderSkipped:false},
-      {label:'/contato/',data:labels.map(k=>diasMap[k].cont),backgroundColor:C2,borderRadius:3,borderSkipped:false}
+      {label:'Botão de WhatsApp',data:labels.map(k=>diasMap[k].orc),backgroundColor:C1,borderRadius:3,borderSkipped:false},
+      {label:'Formulário site',data:labels.map(k=>diasMap[k].cont),backgroundColor:C2,borderRadius:3,borderSkipped:false}
     ]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
       scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},autoSkip:false}},
