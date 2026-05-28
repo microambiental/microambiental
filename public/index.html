@@ -292,10 +292,10 @@ function renderDiario(leads,ano,mes,limite){
     const key=l.date.getDate().toString().padStart(2,'0');
     if(!diasMap[key]) continue;
     if(l.identificador.includes('pedido-de-orcamento')) diasMap[key].orc++;
-    else if(l.identificador.includes('Formulário site')) diasMap[key].cont++;
+    else if(l.identificador.includes('/contato/')) diasMap[key].cont++;
     else diasMap[key].orc++;
   }
-  const labels=Object.keys(diasMap);
+  const labels=Array.from({length:diasNoMes},(_,i)=>(i+1).toString().padStart(2,'0'));
   if(chartDaily) chartDaily.destroy();
   chartDaily=new Chart(document.getElementById('dailyChart'),{
     type:'bar',
